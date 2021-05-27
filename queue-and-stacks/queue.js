@@ -1,3 +1,4 @@
+//简单的队列
 class Queue {
     list = [];
     //入队
@@ -33,3 +34,14 @@ class Queue {
         console.log(this.list)
     }
 };
+//demo
+// let myQueue = new Queue()
+// myQueue.enQueue('John', 2)
+// myQueue.enQueue('Jack', 1)
+// myQueue.enQueue('Camila', 1)
+// myQueue.enQueue('Surmon', 3)
+// myQueue.enQueue('skyRover', 2)
+// myQueue.enQueue('李重楼', 1)
+// myQueue.output()
+// console.log(myQueue.size)
+// console.log(myQueue.front())
