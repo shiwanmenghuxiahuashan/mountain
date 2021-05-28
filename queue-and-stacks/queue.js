@@ -23,7 +23,7 @@ class Queue {
     }
     //是否为空
     isEmpty() {
-        return this.list.length > 0;
+        return this.list.length == 0;
     }
     //重置队列
     reset() {
@@ -36,12 +36,12 @@ class Queue {
 };
 //demo
 // let myQueue = new Queue()
-// myQueue.enQueue('John', 2)
-// myQueue.enQueue('Jack', 1)
-// myQueue.enQueue('Camila', 1)
-// myQueue.enQueue('Surmon', 3)
-// myQueue.enQueue('skyRover', 2)
-// myQueue.enQueue('李重楼', 1)
+// myQueue.enQueue('John')
+// myQueue.enQueue('Jack')
+// myQueue.enQueue('Camila')
+// myQueue.enQueue('Surmon')
+// myQueue.enQueue('skyRover')
+// myQueue.enQueue('李重楼')
 // myQueue.output()
 // console.log(myQueue.size)
 // console.log(myQueue.front())
