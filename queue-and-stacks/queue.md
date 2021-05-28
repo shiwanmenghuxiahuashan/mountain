@@ -1,10 +1,10 @@
 # 队列是先入先出的数据结构
 
-在 FIFO 数据结构中，将首先处理添加到队列中的第一个元素。
+在 `FIFO` 数据结构中，将首先处理添加到队列中的第一个元素。
 
-![FIFO](https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/08/14/screen-shot-2018-05-03-at-151021.png)
+![ `FIFO` ](https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/08/14/screen-shot-2018-05-03-at-151021.png)
 
-如上图所示，队列是典型的 FIFO 数据结构。插入（insert）操作也称作入队（enqueue），新元素始终被添加在队列的末尾。 删除（delete）操作也被称为出队（dequeue)。 你只能移除第一个元素。
+如上图所示，队列是典型的 `FIFO` 数据结构。插入（insert）操作也称作入列（enqueue），新元素始终被添加在队列的末尾。 删除（delete）操作也被称为出列（dequeue)。 你只能移除第一个元素。
 
 ![git 图示](https://pic.leetcode-cn.com/44b3a817f0880f168de9574075b61bd204fdc77748d4e04448603d6956c6428a-%E5%87%BA%E5%85%A5%E9%98%9F.gif)
 
@@ -12,19 +12,22 @@
 
 为了实现队列，我们可以使用动态数组和指向队列头部的索引。
 
-如上所述，队列应支持两种操作：入队和出队。入队会向队列追加一个新元素，而出队会删除第一个元素。
- ~~所以我们需要一个索引来指出起点。~~
+如上所述，队列应支持两种操作：入列和出列。入列会向队列追加一个新元素，而出列会删除第一个元素。
+
+> 大多数流行语言都提供内置的队列库，因此您无需重新发明轮子。
+
+js中的 `Array` 原型中提供了入列 `push` 方法，出列 `shift` 方法 , 直接使用即可。
 
 ```javascript 
 //简单的队列
 class Queue {
 
     list = [];
-    //入队
+    //入列
     enQueue(member) {
         this.list.push(member);
     };
-    //出队
+    //出列
     deQueue() {
         if (this.isEmpty()) {
             return false;
@@ -48,7 +51,7 @@ class Queue {
     reset() {
         this.list = [];
     }
-    //输出队列
+    //输出列列
     output() {
         console.log(this.list)
     }
@@ -72,19 +75,20 @@ class Queue {
 
 # 循环队列
 
-当我们有空间限制时，不能无休止的向队列中push队员，会占用过多的内存，所以提出了循环队列的概念。
+当我们有空间限制时，不能无休止的向队列中 `push` 队员，会占用过多的内存，所以提出了循环队列的概念。
 
-循环队列是一种线性数据结构，其操作表现基于 FIFO（先进先出）原则并且队尾被连接在队首之后以形成一个循环。它也被称为“环形缓冲器”。
+循环队列是一种线性数据结构，其操作表现基于  `FIFO` （先进先出）原则并且队尾被连接在队首之后以形成一个循环。它也被称为 **“环形缓冲器”**。
 
 ~~js中不存在shift后空间被浪费的概念~~
 
-具体来说，我们可以使用固定大小的数组。 目的是节约存储。
+具体来说，我们可以使用固定大小的数组,限制其入列成员数量。目的是节约存储。
 
-让我们通过一个示例来查看循环队列的工作原理。 你应该注意我们入队或出队元素时使用的策略。
+让我们通过一个示例来查看循环队列的工作原理。 你应该注意我们入列或出列元素时使用的策略。
 
 [LeetCode 动态演示](https://leetcode-cn.com/leetbook/read/queue-stack/kgtj7/)
 
-静态示例
+## 静态示例
+
 ``` js
 //约定队列长队为5
 
@@ -171,7 +175,7 @@ class MyCircularQueue {
     reset() {
         this.list = [];
     }
-    //输出队列
+    //输出列列
     output() {
         console.log(this.list)
     }
@@ -208,3 +212,5 @@ class MyCircularQueue {
 ```
 
 有些循环队列设计时，判断是否满，是否出列是交给实例去操作的。这一版是自动判断是否满，满则出列，腾出位置，然后入列新队员
+
+# 循环队列的应用场景
