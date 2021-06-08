@@ -1,7 +1,7 @@
 基于Vue.js的企业级前端代码架构设计设想 http://www.uml.org.cn/AJAX/201905093.asp
 领域驱动的 Vue.js 架构 https://medium.com/bauer-kirch/a-domain-driven-vue-js-architecture-77771c20f0da
-
-
+一种不同的前端架构方法 https://dev.to/quochuytlbk/a-different-approach-to-frontend-architecture-38d4
+现代前端 101 https://medium.com/js-dojo/modern-frontend-architecture-101-f9c88c20ea20
 
 前面说了，vue能够解决的问题更多是偏向于视图层，如果前端将业务代码与视图层代码全部写到一个vue文件中，那么这个文件将可能变得非常庞大，同样导致系统的复杂度变高，变得难以维护，业务代码之间的复用性也会变低，导致冗余代码过多。
 

@@ -1,0 +1,6 @@
+class Page{
+    /**
+     * @member 
+     */
+    name='';
+}

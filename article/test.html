@@ -1,0 +1,13 @@
+<script>
+    var query = {
+        name: {
+            eq: "宝马"
+        },
+        time: {
+            //小于等于
+            lte: 2019
+        }
+    }
+    console.log(encodeURI(JSON.stringify(query)))//%7B%22name%22:%7B%22eq%22:%22%E5%AE%9D%E9%A9%AC%22%7D,%22time%22:%7B%22lte%22:2019%7D%7D
+
+</script>
