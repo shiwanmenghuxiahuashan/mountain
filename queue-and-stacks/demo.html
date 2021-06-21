@@ -1,45 +1,70 @@
 <script>
+    // const grid = [
+    //     ["1", "1", "1", "1", "0"],
+    //     ["1", "1", "0", "1", "0"],
+    //     ["1", "1", "0", "0", "0"],
+    //     ["0", "0", "0", "0", "0"]
+    // ]
+    // const grid = [
+    //     ["1", "1", "0", "0", "0"],
+    //     ["1", "1", "0", "0", "0"],
+    //     ["0", "0", "1", "0", "0"],
+    //     ["0", "0", "0", "1", "1"]
+    // ]
     const grid = [
-        ["1", "1", "1", "1", "0"],
-        ["1", "1", "0", "1", "0"],
-        ["1", "1", "0", "0", "0"],
-        ["0", "0", "0", "0", "0"]
+        ["1", "1", "1"],
+        ["0", "1", "0"],
+        ["1", "1", "1"]
     ]
-
+    // [
+    //     ["1", "0", "1"],
+    //     ["0", "0", "0"],
+    //     ["1", "1", "1"]
+    // ]
+    // const grid = [
+    //     ["1", "1", "1", "1", "0"],
+    //     ["1", "1", "0", "1", "0"],
+    //     ["1", "1", "0", "0", "0"],
+    //     ["0", "0", "0", "0", "0"]
+    // ]
 
     /**
  * @param {character[][]} grid
  * @return {number}
  */
+    //这个方法会把当前格子以及他邻近的为1的格子都会置为1
+    function dfs(grid, i, j) {
+        //边界条件判断，不能越界
+        if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] == '0') {
+            return;
+        }
+        //把当前格子置为0，然后再从他的上下左右4个方向继续遍历
+        grid[i][j] = '0';
+        console.log(`grid[${i}][${j}]`)
+        dfs(grid, i - 1, j);//上
+        dfs(grid, i + 1, j);//下
+        dfs(grid, i, j + 1);//左
+        dfs(grid, i, j - 1);//右
+    }
 
     var numIslands = function (grid) {
-        function isLands(grid, element, i, j) {
-            let result = true
-            if (element[i] === "0") {
-                return false;
-            }
-            //next bottom
-            let shizi = [element[j + 1], (grid[i + 1] ? grid[i + 1][j] : "0")];
-            for (let index = 0; index < shizi.length; index++) {
-                if (shizi[index] === "1") {
-                    result = false;
-                    break;
-                }
-
-            }
-            return result
-        }
         let couter = 0;
         for (let i = 0; i < grid.length; i++) {
-            const element = grid[i];
-            for (let j = 0; j < element.length; j++) {
-                if (isLands(grid, element, i, j)) {
-                    couter++;
-                }
+            for (let j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == '1') {
 
+                    couter++;
+                    dfs(grid, i, j)
+                }
             }
         }
         console.log(couter)
+        return couter;
     };
     numIslands(grid)
+
+
+
+
+
 </script>
