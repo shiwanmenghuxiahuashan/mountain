@@ -11,16 +11,15 @@
     //     ["0", "0", "1", "0", "0"],
     //     ["0", "0", "0", "1", "1"]
     // ]
-    const grid = [
-        ["1", "1", "1"],
-        ["0", "1", "0"],
-        ["1", "1", "1"]
-    ]
-    // [
-    //     ["1", "0", "1"],
-    //     ["0", "0", "0"],
+    // const grid = [
+    //     ["1", "1", "1"],
+    //     ["0", "1", "0"],
     //     ["1", "1", "1"]
     // ]
+    const grid = [
+        ["1", "0", "1", "1", "1"],
+        ["1", "0", "1", "0", "1"],
+        ["1", "1", "1", "0", "1"]]
     // const grid = [
     //     ["1", "1", "1", "1", "0"],
     //     ["1", "1", "0", "1", "0"],
@@ -47,54 +46,66 @@
     //     dfs(grid, i, j - 1);//右
     // }
 
-    function bfs(grid, rowIndex, colIndex) {
-        let list = [grid[rowIndex][colIndex]]
-        const rowLength = grid.length;
-        const colLength = grid[0].length;
-        console.log(`rowIndex:${rowIndex}-colIndex:${colIndex}`)
-        while (list.length) {
-            let cur = list.shift();
-            console.log(cur, list)
-            if (rowIndex > 0 && grid[rowIndex - 1][colIndex] == "1") {
-                //上
-                console.log('push 上')
-                grid[rowIndex - 1][colIndex] = '0';
-                list.push(grid[rowIndex - 1][colIndex]);
-            }
-            if (colIndex < colLength - 1 && grid[rowIndex][colIndex + 1] == "1") {
-                //右
-                console.log('push 右', grid[rowIndex][colIndex + 1])
-                grid[rowIndex][colIndex + 1] = '0';
-                list.push(grid[rowIndex][colIndex + 1]);
-            }
-            if (rowIndex < rowLength - 1 && grid[rowIndex + 1][colIndex] == "1") {
-                //下
-                console.log('push 下')
-                grid[rowIndex + 1][colIndex] = '0';
-                list.push(grid[rowIndex + 1][colIndex]);
-            }
-            if (colIndex > 0 && grid[rowIndex][colIndex - 1] == "1") {
-                //左
-                console.log('push 左')
-                grid[rowIndex][colIndex - 1] = '0';
-                list.push(rid[rowIndex][colIndex - 1]);
+
+    function bfs(grid, i, j) {
+        let queue = [{ i, j }];
+        let row = grid.length;
+        let col = grid[0].length
+
+        while (queue.length > 0) {
+            let { i, j } = queue.shift();
+            let currten = grid[i][j];
+            grid[i][j] = "0"
+            if (currten == "1") {
+
+                if (i > 0 && grid[i - 1][j] == "1") {
+                    //上
+                    queue.push({
+                        i: i - 1,
+                        j
+                    })
+                }
+                if (i < row - 1 && grid[i + 1][j] == "1") {
+                    //下
+                    console.log("下 ")
+                    queue.push({
+                        i: i + 1, j
+                    })
+                }
+                if (j < col - 1 && grid[i][j + 1] == "1") {
+                    //右
+                    console.log("右")
+                    queue.push({
+                        i,
+                        j: j + 1
+                    })
+                }
+                if (j > 0 && grid[i][j - 1] == "1") {
+                    //左
+                    console.log("左 ")
+                    queue.push({
+                        i,
+                        j: j - 1
+                    })
+                }
             }
         }
+
     }
+
     var numIslands = function (grid) {
         let couter = 0;
         for (let i = 0; i < grid.length; i++) {
             for (let j = 0; j < grid[0].length; j++) {
-                if (grid[i][j] == '1') {
+                if (grid[i][j] == "1") {
                     couter++;
                     bfs(grid, i, j)
                 }
             }
         }
-         console.log(couter)
         return couter;
     };
-    numIslands(grid)
+    console.log(numIslands(grid))
 
 
 
