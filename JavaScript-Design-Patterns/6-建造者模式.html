@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>6-建造者模式</title>
+</head>
+
+<body>
+
+    <script>
+        /**
+        工厂模式关心的是结果，不关心具体过程
+
+        建造者模式关心的是建造过程，将每一部分都拆分成独立的构造函数，增加不同的方法与内容
+
+        
+        */
+        var Human = function (param) {
+            this.skill = param && param.skill || '保密';
+            this.hobby = param && param.hobby || '保密';
+        }
+        Human.prototype={
+            getSkill:function(){
+                return this.skill;
+            },
+            getHobby:function(){
+                return this.hobby;
+            }
+        }
+
+        var Named=function(name){
+            var that=this;
+            (function(name,that){
+                that.wholeName=name;
+                var _pos=name.indexOf(' ');
+                if(_pos>-1){
+                    that.FirstName =name.slice(0,_pos);
+                    that.SecondName=name.slice(_pos);
+                }
+            })(name,that);
+        }
+
+        var Work=function(){
+            (function(work,that){
+                switch (work) {
+                    case 'code':{
+                    that.work='工程师';
+                    that.workDesc='每天醉心编程';
+                        break;
+                    }
+                    case 'UI':
+                    case 'UE':{
+                    that.work='设计师';
+                    that.workDesc='设计就是美工';
+                        break;
+                    }
+                    case 'teach':{
+                    that.work='教师';
+                    that.workDesc='分享是一种快乐';
+                        break;
+                    }
+                    default:
+                    that.work=work;
+                    that.workDesc="描述是没有滴";
+                        break;
+                }
+            })(work,that);
+        }
+        Work.prototype.changeWork=function(work){
+            this.work=work;
+        }
+        Work.prototype.changeDesc=function(workDesc){
+            this.workDesc=workDesc;
+        }
+        
+        var Person=function(name,work){
+            var _person=new Human();
+            _person.name=new Named(name)
+            _person.work=work;
+            return _person;
+        }
+        var person=new Person('李 重楼','code');
+        console.log(person.name.FirstName)
+        console.log(person.skill)
+    </script>
+</body>
+
+</html>

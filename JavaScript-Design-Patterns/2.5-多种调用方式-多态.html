@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>2.5-多种调用方式-多态.</title>
+</head>
+
+<body>
+    <script>
+        /*多态方法*/
+        function Add() {
+
+            //私有方法
+            function zero() {
+                return 10;
+            }
+
+            function one(num) {
+                return 10 + num;
+            }
+
+            function two(n1, n2) {
+                return n1 + n2;
+            }
+
+            function more(arg) {
+                /*arg 构造函数是Object() 他的原型方法上肯定没有数组方法*/
+                // var arr=[];
+                /**
+                arr 的构造函数是Array() 
+                */
+                return Array.prototype.reduce.call(arg, function (total, num) {
+                    return total + num;
+                })
+            }
+
+            this.add = function () {
+                var len = arguments.length,
+                    arg = arguments;
+                switch (len) {
+                    case 0:
+                        {
+                            return zero();
+                            break;
+                        }
+                    case 1:
+                        {
+                            return one(arg[0]);
+                            break;
+                        }
+                    case 2:
+                        {
+                            return two(arg[0], arg[1]);
+                            break;
+                        }
+
+                    default:
+                        {
+                            return more(arguments)
+                            break;
+                        }
+                }
+            }
+
+        }
+        //实例化
+        var A = new Add();
+        console.log(A.add()); //10
+        console.log(A.add(1)); //11
+        console.log(A.add(1, 2)); //3
+        console.log(A.add(1, 2, 3)); //6
+    </script>
+</body>
+
+</html>

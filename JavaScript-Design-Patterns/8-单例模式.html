@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>8-单例模式</title>
+</head>
+
+<body>
+    <script>
+        /*独立命名空间*/
+        //如 ：lichonglou
+        var lichonglou = {
+            add: function () {
+                console.log("+++++++")
+            },
+            build: function () {
+                //功能
+            }
+        };
+        lichonglou.add();
+
+        //无法修改的静态变量
+        var Config = (function () {
+            var _conf = {
+                MAX: 100,
+                MIN: 1,
+                COUNT: 1000
+            }
+            return {
+                //稳妥模式
+                get: function (name) {
+                    return _conf[name] ? _conf[name] : null;
+                }
+            }
+        })();
+        console.log(Config.get("MAX"))
+
+        //惰性单列
+        var LazySingle = (function () {
+            //静态属性
+            var _instance = null,
+                _cout = 0;
+
+            function Single() {
+                _cout++; //调用计数
+                //私有属性方法
+                var _log = "hello world"
+                return {
+                    /*共有*/
+                    publicSay: function () {
+                        console.log(_log);
+                    },
+                    publicNum: 9900,
+                    count: function () {
+                        console.log("调用了" + _cout + "次")
+                    }
+                }
+            }
+
+            //获取单列对象接口
+
+            return function () {
+
+                //利用闭包引用静态属性判断是否实例化
+                if (!_instance) {
+                    _instance = Single();
+                    console.log(_instance)
+                }
+
+                return _instance;
+            }
+        })(); //自调用初始化
+
+        var _one = LazySingle(); //第一次
+        _one.publicSay();
+        _one.count();//1
+
+        var _two = LazySingle(); //第二次调用
+        _two.publicSay();
+        _two.count();//2 因为判断了实例 是否创建
+    </script>
+</body>
+
+</html>

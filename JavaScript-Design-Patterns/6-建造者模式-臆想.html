@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>6-建造者模式-臆想</title>
+</head>
+
+<body>
+    <script>
+        function inheritPrototype(child, parent) {
+            var prototype = Object.create(parent.prototype); // 创建了父类原型的浅复制+
+            prototype.constructor = child;
+            child.prototype = prototype; // 将子类的原型替换为这个原型
+        }
+        // 核心：因为是对父类原型的复制，所以不包含父类的构造函数，也就不会调用两次父类的构造函数造成浪费
+
+        var Wow = function () {
+            //私有属性 不可更改所以没有放在原型上
+            var _version = '1.0.0',
+                _name = "魔兽世界",
+                _type = "RPG";
+            //特权方法
+            this.version = function () {
+                console.log('版本号:', _version);
+                return this;
+            }
+        }
+
+        var JOKE = {};
+
+        Wow.prototype = {
+            init: function () {
+                console.log('start')
+                return this;
+            }
+        }
+        var Skill = function (name) {
+            this.name=name;
+        }
+        Skill.prototype = {
+            cf:{
+                skillName: '冲锋',
+                use:function(play){
+                    console.log(play.name+'使用了',this.skillName)
+                }
+            },
+            hq: '火球术',
+            dj: '盾击',
+        }
+
+        var Pofession = function (type) {
+            Wow.call(this);
+            this.name = type;
+            this.desc = "牛头战士，体壮如牛！";
+            this.skill = new Skill(type);
+        }
+        inheritPrototype(Pofession, Wow);
+        Pofession.prototype.joke = function () {
+            //但是每个职业都会讲笑话;
+            console.log(this.name + "准备 讲一个冷笑话：" + this.desc);
+        }
+        Pofession.prototype.showPofe = function () {
+            console.log("我是一名"+this.name +"\n");
+            return this;
+        }
+
+
+        var play = new Pofession('牛头战');
+        play.init().version().showPofe().joke();
+        play.skill.cf.use(play)
+
+    </script>
+</body>
+
+</html>

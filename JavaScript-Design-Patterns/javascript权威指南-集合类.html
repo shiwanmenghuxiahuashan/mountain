@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>javascript权威指南-集合类</title>
+</head>
+
+<body>
+    <script>
+        /*
+            Set.js 值的任意集合 见JavaScript权威指南P217
+            省略掉了部分方法
+        */
+         function Set(){
+                this.values={};//集合数据保存在对象的属性里
+                this.n=0;//计数器
+                this.add.apply(this,arguments);//所有参赛都添加进集合--在初始化时
+         }
+         Set.prototype.add=function(){
+             for(var i=0,len=arguments.length;i<len;i++){
+                 var val=arguments[i];
+                 var str=Set._v2s(val);//转换为字符串
+                 if(!this.values.hasOwnProperty(str)){//如果不在当前集合中（不包含继承的）
+                     this.values[str]=val;
+                     this.n++;
+                 }
+             }
+         }
+         Set._v2s=function(val){
+             switch (val) {
+                 case undefined: return 'u';
+                 case null:return 'n';
+                 case true:return 't';
+                 case false:return 'f';
+                 default:switch(typeof val){
+                    case 'number' :return '#'+val;
+                    case 'string':return '"'+val;
+                    default :return '@'+objectId(val);
+                 }
+             }
+
+             function objectId(o){
+                 var prop ="|**objectid**|";
+                 if(!o.hasOwnProperty(prop)){//如果对象没有ID
+                    o[prop]=Set._v2s.next++;
+                 }
+                 return o[prop];
+             }
+         };
+         Set._v2s.next=100;
+
+         var test=new Set("789",123,true,false,function(){
+             console.log(1);
+         },function (){
+             console.log(2)
+         },'true','测试',{x:1,y:2})
+         console.log(test)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>2.2-包装明星-封装</title>
+</head>
+
+<body>
+    <script>
+        //实现类，内部通过this指向当前对象，通过this添加属性或者方法
+        var Book = function (id, name, price) {
+
+            //私有属性
+            var name = '',
+                price = 0;
+            //私有方法
+            function checkId() {
+
+            }
+            //对象共有属性
+            this.id = id;
+
+            //特权方法---可操作私有属性的方法
+            this.getName = function () {};
+            this.setName = function () {};
+            this.getPrice = function () {};
+            this.setPrice = function () {};
+            
+            //对象共有方法
+            this.copy = function () {
+                // ...
+            }
+            //安全模式
+            // console.log(this)//Book or Window
+            if(this instanceof Book){
+               
+                this.setName(name);
+                this.setPrice(price);
+            }else{
+                return new Book(id, name, price)
+            }
+           
+        }
+
+        //类静态共有属性和方法(实例对象不能访问)
+        Book.isChinses = true;
+
+        Book.resetTime = function () {
+            console.log('new time')
+        }
+
+        //共有属性和方法
+        Book.prototype = {
+            isJSBook: false,
+
+            display: function () {
+                console.log('display')
+            }
+        }
+
+        var book = new Book(10, 'javascript设计模式', 50);
+        var manhua =  Book(12, '龙珠Z', 45);
+
+    </script>
+</body>
+
+</html>

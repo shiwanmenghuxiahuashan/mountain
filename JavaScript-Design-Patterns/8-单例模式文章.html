@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>8-单例模式</title>
+</head>
+
+<body>
+
+    <script>
+
+
+        var mySingleton = (function () {
+            // 实例保持了Singleton的一个引用
+            var instance;
+            function init() {
+                // Singleton
+                // 私有方法和变量
+                function privateMethod() {
+                    console.log("I am private");
+                }
+                var privateVariable = "Im also private";
+                var privateRandomNumber = Math.random();
+
+                return {
+                    // 公有方法和变量--真正可以被实例访问使用的方法和变量
+                    publicMethod: function () {
+                        console.log("The public can see me!");
+                    },
+                    publicProperty: "I am also public",
+                    getRandomNumber: function () {//公有方法返回了私有变量--对外的接口
+                        return privateRandomNumber;
+                    }
+                };
+            };
+            //立即执行函数返回 getInstance接口，通过闭包保持着 instance的引用。
+            return {
+                // 获取Singleton的实例，如果存在就返回，不存在就创建新实例
+                getInstance: function () {
+                    if (!instance) {
+                        instance = init();
+                    }
+                    return instance;
+                }
+            };
+        })();
+
+        var t1 = mySingleton.getInstance();
+        var t2 =  mySingleton.getInstance();
+
+        console.log(t1 === t2);//true
+
+    </script>
+</body>
+
+</html>

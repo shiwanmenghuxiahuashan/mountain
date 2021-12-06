@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>递归</title>
+</head>
+
+<body>
+
+    <script>
+        /*JavaScript高级程序设计 p177*/
+        function test(num) {
+            if (num <= 1) {
+                return 1;
+            } else {
+                return num * test(num - 1);
+            }
+        }
+        // console.log(test(4))// 24
+
+        // var anotherFunction = test;
+        // test = null;//因为此处引用断开，18行处的test不再是函数了，所以会报错
+        // anotherFunction(4);// line 18 : test is not a function
+
+        //可以改成
+        function testCallee(num) {
+            if (num <= 1) {
+                return 1;
+            } else {
+                return num * arguments.callee(num - 1);
+                /*
+                 arguments.callee 指向正在执行函数的指针
+                */
+            }
+        }
+        var other = testCallee;
+        testCallee = null;
+        console.log(other(4)) //24 正常调用
+    </script>
+</body>
+
+</html>

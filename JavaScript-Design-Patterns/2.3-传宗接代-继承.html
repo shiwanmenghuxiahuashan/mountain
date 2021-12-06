@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>2.3-传宗接代-继承</title>
+</head>
+
+<body>
+    <script>
+        /**
+            类式继承
+            类式继承需要将父类的实例赋值给子类的的原型对象prototype
+
+            类的原型对象作用是就是为了类的原型添加共有属性和方法，但是类本身不能不直接访问这些属性和方法，必须通过原型prototype来访问。
+
+            实例化父类时，new关键字将父类的构造函数，属性和方法复制给了实例化对象，并且将实例化对象的__proto__指向了父类的原型对象。
+
+            这样实例对象就拥有了父类原型对象上的属性和方法。
+
+            并且，实例对象可以直接访问父类原型对象上的属性和方法。
+        */
+
+        //声明父类
+        function SuperClass() {
+            this.superValue = "我是父类";
+        }
+
+        //增加父类公共方法--类的原型对象作用是就是为了类的原型添加共有属性和方法
+        SuperClass.prototype.getSuperValue = function () {
+            //为父类原型对象上添加一个获取值的方法
+            console.log(this.superValue)
+        }
+        //声明子类
+        function SubClass() {
+            this.subValue = "我是子类";
+        }
+
+        //继承父类--父类的实例赋值给子类的的原型对象prototype
+        //new关键字将父类的构造函数，属性和方法复制给了实例化对象，并且将实例化对象的__proto__指向了父类的原型对象
+        SubClass.prototype = new SuperClass();
+
+        //增加子类公共方法
+        SubClass.prototype.getSubValue = function () {
+            //为子类原型对象上添加一个获取值的方法
+            console.log(this.subValue);
+        }
+
+        //实例化
+        var instance = new SubClass();
+
+        //使用
+        instance.getSubValue(); //我是子类
+        instance.getSuperValue(); //我是父类--实例对象可以直接访问父类原型对象上的属性和方法
+
+        //通过instanceof检测某个对象是否是某个类的实例
+        //instanceof通过判断对象的prototype链来判断某个对象是否是某个类的实例
+        console.log(instance instanceof SuperClass); //true
+        console.log(instance instanceof SubClass); //true
+
+        //instanceof是检测某个对象是否是某个类的实例，它并不表示两者的继承关系
+        console.log(SubClass instanceof SuperClass); //false
+
+
+        //实际继承SuperClass 是 SubClass.prototype ，所以
+        console.log(SubClass.prototype instanceof SuperClass) //true
+
+        //所有对象的都是Object 的实例
+        console.log(instance instanceof Object) //true
+
+        /*
+            类式继承两大缺点：
+            1.子类通过prototype对父对象实例化对象，继承父类，所以父类中的公用属性，都是引用类型，会在所有实例中共用
+            2.由于子类的继承是靠其prototype 对父类的实例化实现的，所以无法传递参数
+        */
+
+        function Father() {
+            this.base='base';
+            this.books = ['1', 'js', 'php'];
+        }
+
+        function Son() {};
+
+        Son.prototype = new Father();
+
+        var instance1 = new Son();
+
+        var instance2 = new Son();
+
+        console.log(instance1.books)
+        console.log(instance2.books)
+
+        instance1.books.push("设计")
+        console.log(instance2.books)
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>2.4-多继承.html</title>
+</head>
+
+<body>
+    <script>
+        /*多继承*/
+        /*单继承，浅复制，复制值类型属性*/
+        function extend(target, source) {
+            //遍历源对象
+            for (var property in source) {
+                target[property] = source[property];
+            }
+            //返回对象
+            return target;
+        }
+        /*深拷贝，递归当前项*/
+
+        function copy(target, source) {
+            var _tmp = null;
+            //遍历源对象
+            for (var property in source) {
+                _tmp = source[property];
+                //如果当前项是对象 
+                if ("object" == typeof _tmp) {
+                    //判断是否为数组或者是对象,从而对其赋值  //另一种 _tmp.constructor== Array?[]:{}
+                    target[property] = _tmp instanceof Array ? [] : {};
+                    //进行递归
+                    copy(target[property], _tmp)
+                } else {
+                    //将源对象属性复制到目标对象中
+                    target[property] = _tmp;
+                }
+            }
+            //返回对象
+            return target;
+        }
+
+        var _target = {
+            a: 1,
+            b: "2",
+            c: [3, 2, 1]
+        };
+        var _source = {
+            a: 111,
+            e: {
+                a: 'b'
+            },
+            f: "8014787",
+            g: [1, 2, 3, 4, 5, 6]
+        };
+        copy(_target, _source);
+
+
+        _target.e.a = "我改啦";
+        _target.g.push("我有一大堆的引用类型")
+        console.log(_target);
+        console.log(_source)
+        /*JSON 方式的深复制*/
+        // var newObj = null;
+        // newObj = JSON.parse(JSON.stringify(_source));
+        // newObj.g.push("JSON 方式深复制")
+        // console.log(newObj)
+        // console.log(_source)
+
+        /*多继承,浅复制*/
+        var mix = function () {
+            var i = 1, //从第二个起为被继承对象
+                len = arguments.length, //参数长度
+                target = arguments[0], //目标对象在0位置
+                arg = null; //缓存参数对象
+            //遍历被继承的对象
+            for (; i < len; i++) {
+                arg = arguments[i];
+                for (var property in arg) {
+                    target[property] = arg[property];
+                }
+            }
+            return target;
+        }
+        // 也可以把MIX方法绑定到Object原型对象上，这样所有对象都可以调用了  从第0个起为被继承对象 this[property] = arg[property]
+        Object.prototype._mix = function () {
+            var i = 0, //从第0个起为被继承对象
+                len = arguments.length, //参数长度
+                arg = null; //缓存参数对象
+            //遍历被继承的对象
+            for (; i < len; i++) {
+                arg = arguments[i];
+                for (var property in arg) {
+                    this[property] = arg[property]; //将被继承对象中属性复制到目标对象中
+                }
+            }
+        }
+
+        //使用：
+        var aa = {
+            aa: '11'
+        }
+        var bb = {
+            bb: '22'
+        }
+        var _other = {
+            str: "多继承"
+        }
+        aa._mix(bb, _other);
+        //仍然还是浅复制！！！
+    </script>
+</body>
+
+</html>

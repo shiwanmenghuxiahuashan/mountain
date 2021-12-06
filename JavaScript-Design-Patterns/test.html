@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var event = {
+            car: [
+
+                { id: "10002", name: "宝骏330" },
+                { id: "10003", name: "宝宝" }
+            ]
+        }
+        var obbb={
+            a:null
+        }
+        var t1=JSON.stringify(event.car);
+        var t2='ca=oa&carlist='+t1;
+        obbb.a=t2;
+        console.log(t1);
+        console.log(t2);
+
+        var arr=obbb.a.split("&");
+        console.log(arr);
+
+        var arr2=arr[1];
+        var c1=arr2.split("=");
+        var ttt={
+            a:c1[1]
+        }
+        console.log(ttt.a)
+console.log(JSON.parse(ttt.a))
+       
+    </script>
+</body>
+
+</html>

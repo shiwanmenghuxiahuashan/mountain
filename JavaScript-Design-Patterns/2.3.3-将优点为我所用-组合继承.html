@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>2.3.3-将优点为我所用-组合继承</title>
+</head>
+
+<body>
+    <script>
+        /**
+           组合式继承
+        */
+
+        //声明父类
+        function SuperClass(name) {
+            //值类型共有属性
+            this.name = name;
+            //引用类型共有属性
+            this.books = ['js', 'html', 'css'];
+
+        }
+
+        //增加父类公共方法
+        //为父类原型对象上添加一个获取值的方法
+        SuperClass.prototype.getName = function () {
+            console.log(this.name)
+        }
+        //声明子类
+        function SubClass(name, time) {
+            /*继承父类
+              apply：最多只能有两个参数——新this对象和一个数组argArray。
+              call：它可以接受多个参数，第一个参数与apply一样，后面则是一串参数列表。
+
+              call 方法是谁调用 this 指向谁
+                
+            SuperClass.call(this,id);
+            实际是:
+            SubClass.SuperClass(id);
+            根据创建对象的安全模式那部分来看
+            SuperClass函数直接执行，this指定的是当前对象，所以在SuperClass初始化的值会复制到
+            SubClass中
+            */
+
+            //构造函数式继承父类name属性
+            SuperClass.call(this, name);
+
+            //子类中新增共有属性
+            this.time = time;
+
+        }
+        //类式继承-子类原型继承父类
+        SubClass.prototype = new SuperClass();//-----------------------缺点是构造函数调用了两次
+
+        SubClass.prototype.constructor = SubClass;//将构造函数属性指回自己
+
+        //添加子类原型方法
+        SubClass.prototype.getTime = function () {
+            console.log(this.time)
+        }
+        //实例化
+        var instance1 = new SubClass('666');
+        console.log(instance1.__proto__)
+        var instance2 = new SubClass('deqiu');
+
+        console.log(instance1 instanceof SuperClass) //true 原型上继承了
+        
+
+        //所以
+        console.log(instance1.books) //['js','html','css']
+
+        instance1.books.push("设计");
+
+        console.log(instance1.books) //['js','html','css','设计']
+
+        console.log(instance2.books) //['js','html','css'] //
+    </script>
+</body>
+
+</html>

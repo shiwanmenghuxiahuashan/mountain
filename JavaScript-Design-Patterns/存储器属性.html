@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>存储器属性.html</title>
+</head>
+
+<body>
+    <script>
+        var person = {
+            name: "杨超越"
+        };
+        //定义一个只有getter的age属性
+        Object.defineProperty(person, 'age', {
+            value: new Date().getFullYear() - 1998,
+            get function() {
+                return this.age;
+            }
+        })
+
+        console.log(person.age); //21
+        person.age = 22;
+        console.log(person.age); //21
+    </script>
+</body>
+
+</html>

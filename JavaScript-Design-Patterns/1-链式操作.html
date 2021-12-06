@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>1-链式操作</title>
+</head>
+
+<body>
+    <p>111111111</p>
+    <script>
+        var HulunbuirGrassland = function () {};
+        HulunbuirGrassland.prototype = {
+            waring: function () {
+                console.log("调用green方法很危险");
+                return this;
+            },
+            green: function () {
+                document.getElementsByTagName("body")[0].style.backgroundColor = "#00ff00";
+                return this;
+            },
+            forgive: function () {
+                document.getElementsByTagName("body")[0].style.backgroundColor = "#93f093";
+                console.log('当然选择forgive啦');
+            }
+        }
+
+        var someone = new HulunbuirGrassland();
+
+        someone.waring().green().forgive();
+
+        var add = (function () {
+            var sum = 0;
+            return function (num) {
+                return sum += num;
+            }
+        });
+        console.log(add(1)(2))
+    </script>
+</body>
+
+</html>

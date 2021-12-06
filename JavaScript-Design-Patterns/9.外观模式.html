@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>9.外观模式.html</title>
+</head>
+
+<body>
+    <div id="d1"></div>
+    <button onclick="document.getElementById('d1').innerHTML=new Date().toLocaleTimeString()">show</button>
+
+    <script>
+        //外观模式（也叫门面模式）可以简化底层接口的复杂性
+        // 在形式上，外观模式在javascript中就像这样：
+        function a(x) {
+            // do something
+        }
+
+        function b(y) {
+            // do something
+        }
+
+        function ab(x, y) {
+            a(x);
+            b(y);
+        }
+        /*   外观模式在javascript的应用主要可以分为两类，
+        某块代码反复出现，比如函数a的调用基本都出现在函数b的调用之前，那么可以考虑考虑将这块代码使用外观角色包装一下来优化结构。
+        还有一种就是对于一些浏览器不兼容的API，放置在外观内部进行判断，处理这些问题最好的方式便是将跨浏览器差异全部集中放置到一个外观模式实例中来提供一个对外接口。*/
+    </script>
+</body>
+
+</html>

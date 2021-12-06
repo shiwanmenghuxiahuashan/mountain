@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>12.装饰者模式.html</title>
+</head>
+
+<body>
+    <input id="test" type="text">
+    <script src="./jquery-3.2.1.min.js"></script>
+    <script>
+        $("input").on("click", function () {
+            console.log("我也是第一次绑定")
+        }).on("change", function () {
+            console.log($(this).val())
+        })
+    </script>
+
+    <script>
+        //装饰者模式：在不改变原对象的基础上，对其进行扩展 （方法或者属性）
+        /***/
+        /**
+         * 
+         * @param {string} selecter -jquery 选择器 
+         * @param {object} _event  -事件对象 ()
+         * @param {Boolean} isPrev - 是否在已存在事件前插入事件
+         */
+        var decorator = function (selecter, _event, isPrev) {
+            var _target = $(selecter),
+                _eventsObj = $._data(_target[0], 'events'); //获取JQ事件对象信息，注意：1.8之后要写 $._data(原生DOM,要获取的数据名称)
+
+            console.log(_eventsObj);
+
+            if (_eventsObj && _eventsObj[_event.type] && typeof _eventsObj[_event.type][0].handler == "function") {
+
+                _eventsObj[_event.type][isPrev ? 'unshift' : 'push'](_event)
+
+            } else {
+                _target.on(_event.type, _event.handler);
+            }
+
+            return _target; //返回jqDOM对象
+        };
+
+        decorator("#test", {
+            type: 'click',
+            handler: function () {
+                console.log("装饰一下");
+            }
+        });
+
+        decorator("#test", {
+            type: 'click',
+            handler: function () {
+                console.log("老子不管，老子要第一个显示")
+            }
+        }, true);
+    </script>
+</body>
+
+</html>

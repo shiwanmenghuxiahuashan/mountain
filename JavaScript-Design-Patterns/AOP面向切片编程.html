@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>AOP面向切片编程</title>
+</head>
+
+<body>
+    <script>
+        // AOP 前置通知函数声明
+        /**
+         * 给方法加入前置切片函数
+         * 可以在执行方法之前执行一些操作,
+         * 前置切片的返回值为false时，不影响原方法的执行
+         * @param func {Function} 被前置执行的函数
+         * @return {Function} 加入前置通知的函数
+         */
+        Function.prototype.before = function (func) {
+            var __self = this;
+            return function () {
+                func.apply(__self, arguments);
+                return __self.apply(__self, arguments);
+            }
+        }
+
+        // 代码
+        function test(txt) {
+            console.log('I\'m a func'+txt);
+        }
+        a=test.before(function () {
+            console.log('before');
+        });
+        a("我是A标签的参数");
+
+    </script>
+</body>
+
+</html>

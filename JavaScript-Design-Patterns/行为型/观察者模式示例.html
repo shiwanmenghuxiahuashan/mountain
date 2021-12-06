@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>观察者模式示例</title>
+    <style>
+        #addNewObserver {
+            display: inline-block;
+            cursor: pointer;
+            color: #606266;
+            -webkit-appearance: none;
+            text-align: center;
+            outline: none;
+            font-weight: 500;
+            color: #fff;
+            background-color: #409eff;
+            border-color: #409eff;
+            user-select: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            border-radius: 4px;
+            margin-bottom: 40px;
+        }
+
+        .mainCheckbox {
+            margin-bottom: 40px;
+        }
+
+        .mainCheckbox label {
+            cursor: pointer;
+        }
+
+        #mainCheckbox,
+        #observersContainer input[type="checkbox"] {
+            white-space: nowrap;
+            cursor: pointer;
+            outline: none;
+            display: inline-block;
+            line-height: 1;
+            position: relative;
+            vertical-align: middle;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #dcdfe6;
+
+        }
+
+        #observersContainer {
+            min-height: 40px;
+            margin-top: 40px;
+            padding: 40px;
+            border: 1px solid #ebebeb;
+            border-radius: 3px;
+            transition: .2s;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="addNewObserver">Add New Observer checkbox</button>
+    <div class="mainCheckbox">
+        <label>选中全部 <input id="mainCheckbox" type="checkbox" /></label>
+    </div>
+    <div id="observersContainer"></div>
+
+    <script>
+        function Observer() {
+            this.update = function () {
+                // ...
+                throw new Error('Observer 的 update 方法应该被重写！')
+            };
+        }
+
+        function ObserverList() {
+            this.observerList = [];
+        }
+
+        ObserverList.prototype.add = function (obj) {
+            return this.observerList.push(obj);
+        };
+
+        ObserverList.prototype.count = function () {
+            return this.observerList.length;
+        };
+
+        ObserverList.prototype.get = function (index) {
+            if (index > -1 && index < this.observerList.length) {
+                return this.observerList[index];
+            }
+        };
+
+        ObserverList.prototype.indexOf = function (obj, startIndex) {
+            var i = startIndex;
+
+            while (i < this.observerList.length) {
+                if (this.observerList[i] === obj) {
+                    return i;
+                }
+                i++;
+            }
+
+            return -1;
+        };
+
+        ObserverList.prototype.removeAt = function (index) {
+            this.observerList.splice(index, 1);
+        };
+
+
+
+        function Subject() {
+            this.observers = new ObserverList();
+        }
+
+        Subject.prototype.addObserver = function (observer) {
+            this.observers.add(observer);
+        };
+
+        Subject.prototype.removeObserver = function (observer) {
+            this.observers.removeAt(this.observers.indexOf(observer, 0));
+        };
+
+        Subject.prototype.notify = function (context) {
+            var observerCount = this.observers.count();
+            for (var i = 0; i < observerCount; i++) {
+                this.observers.get(i).update(context);
+            }
+        };
+
+        // Extend an object with an extension
+        function extend(obj, extension) {
+            for (var key in extension) {
+                obj[key] = extension[key];
+            }
+        }
+
+        // References to our DOM elements
+
+        var controlCheckbox = document.getElementById("mainCheckbox"),
+            addBtn = document.getElementById("addNewObserver"),
+            container = document.getElementById("observersContainer");
+
+
+        // Concrete Subject
+
+        // Extend the controlling checkbox with the Subject class
+        extend(controlCheckbox, new Subject());
+        // Clicking the checkbox will trigger notifications to its observers
+        controlCheckbox.onclick = function () {
+            controlCheckbox.notify(controlCheckbox.checked);
+        };
+
+        addBtn.onclick = addNewObserver;
+
+        // Concrete Observer
+
+        function addNewObserver() {
+
+            // Create a new checkbox to be added
+            var check = document.createElement("input");
+            check.type = "checkbox";
+
+            // Extend the checkbox with the Observer class
+            extend(check, new Observer());
+
+            // Override with custom update behaviour
+            check.update = function (value) {
+                this.checked = value;
+            };
+
+            // Add the new observer to our list of observers
+            // for our main subject
+            controlCheckbox.addObserver(check);
+
+            // Append the item to the container
+            container.appendChild(check);
+        }
+    </script>
+</body>
+
+</html>

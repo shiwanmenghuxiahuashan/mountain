@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>闭包定义常量</title>
+</head>
+
+<body>
+    <p>闭包定义常量</p>
+    <script>
+        var PI = (function () {
+            var _pi = 3.1415926;
+            return {
+                get: function () {
+                    return _pi;
+                }
+            }
+        }())
+
+        console.log(PI.get()); //3.1415926
+        //对象字面量命名空间
+        // var myNamespace={
+        //     myProp:'我的属性',
+        //     myConf:{
+        //         cache:true,
+        //         lang:'zh'
+        //     },
+        //     //基本方法
+        //     myMethod:function(){
+        //         console.log('输出一句没有用的废话');
+        //     },
+        //     //根据配置信息进行输出
+        //     readConf:function(){
+        //         console.log(this.myConf.cache?'启用了缓存':'禁用了缓存','系统语言为：'+ (this.myConf.lang=="zh"?'中文':'English'));
+        //     }
+        // }
+        // myNamespace.myMethod();//输出一句没有用的废话
+        // myNamespace.readConf();//启用了缓存 系统语言为：中文
+
+        var myNamespace = (function () {
+            //私有变量 外部不可访问
+            var myProp = 'siyoubianliang';
+            //私有函数
+            var myMethod = function (txt) {
+                console.log('私有函数输出：' + txt);
+            };
+            return {
+                //共有配置
+                myConf: {
+                    cache: true,
+                    lang: 'zh'
+                },
+                //根据配置信息进行输出
+                readConf: function () {
+                    // 输出私有变量
+                    console.log("输出私有变量" + myProp)
+                    //调用私有函数
+                    myMethod(this.myConf.cache ? '启用了缓存' : '禁用了缓存');
+                }
+            }
+        })();
+
+        myNamespace.readConf();
+        // 输出私有变量siyoubianliang
+        //我的属性 私有函数输出：启用了缓存 
+
+        myNamespace.myMethod(); //myNamespace.myMethod is not a function 
+
+        wiki/纪要/开发/3.0平台
+        
+    </script>
+</body>
+
+</html>
