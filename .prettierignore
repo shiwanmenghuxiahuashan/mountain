@@ -1,0 +1,8 @@
+
+node_modules
+dist
+*.html
+*.md
+package.json
+demo
+__doc__
