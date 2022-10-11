@@ -9,8 +9,8 @@ module.exports = {
     'plugin:vue/vue3-strongly-recommended', // 加上大大提高代码可读性和/或开发体验的规则
     'plugin:vue/vue3-recommended', // 强制执行主观社区默认值的规则，以确保一致性
     'eslint:recommended',
-    '@vue/standard',
-    '@vue/eslint-config-prettier'
+    // '@vue/standard',
+    // '@vue/eslint-config-prettier'
   ],
   parserOptions: {
     parser: '@babel/eslint-parser'
