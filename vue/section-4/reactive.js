@@ -1,6 +1,11 @@
 const bucket = new WeakMap()
-const data = { text: 'hello world' }
+const data = { ok: true, text: 'hello world' }
 let activeEffect = null
+
+function effect(fn) {
+  activeEffect = fn
+  fn()
+}
 
 const obj = new Proxy(data, {
   get(target, key) {
@@ -34,3 +39,7 @@ function trigger(target, key) {
   const effects = depsMap.get(key)
   effects & effects.forEach((fn) => fn())
 }
+
+effect(() => {
+  document.body.innerText = obj.text
+})
