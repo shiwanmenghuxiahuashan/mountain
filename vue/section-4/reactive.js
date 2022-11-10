@@ -19,6 +19,12 @@ const obj = new Proxy(data, {
   }
 })
 
+/**
+ * 追踪
+ * @param {object} target 即 data
+ * @param {*} key
+ * @returns
+ */
 function track(target, key) {
   if (!activeEffect) return
 
