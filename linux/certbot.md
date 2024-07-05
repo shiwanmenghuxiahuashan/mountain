@@ -8,7 +8,9 @@
 
 doc: https://eff-certbot.readthedocs.io/en/latest/intro.html
 
-## 1. 安装 `snap (包管理器)` 从而安装 cerbot 自动创建 ssl 证书
+## 1. 安装 `snap (包管理器)`
+
+这个命令安装snapd，使你能够在你的系统上使用Snap包
 
 ```shell
   # 基于  RHEL 环境命令
@@ -20,19 +22,23 @@ doc: https://eff-certbot.readthedocs.io/en/latest/intro.html
   sudo dnf install snapd
 ```
 
-总的来说，这个命令安装了snapd，使你能够在你的系统上使用Snap包。Snap包使得安装、更新和隔离软件变得更加容易，因为它们包含了运行软件所需的所有依赖项。
+然后创建符号链接 (功能类似于windows的快捷方式 或 环境变量)
 
 ```shell
   # 创建符号链接  然后重启服务器
   sudo ln -s /var/lib/snapd/snap /snap
 ```
 
-## 2. 安装 certbot
+## 2. 安装运行 certbot
+
+certbot 将自动安装SSL证书，并通过 snapd 守护程序自动更新证书。
 
 ```shell
   # 安装 certbot
   sudo snap install --classic certbot
 ```
+
+### 命令行提示步骤
 
 ```shell
   # 运行 certbot 自动创建 ssl 证书
@@ -40,7 +46,7 @@ doc: https://eff-certbot.readthedocs.io/en/latest/intro.html
   sudo certbot --nginx --nginx-server-root /www/server/nginx/conf
 ```
 
-### 命令行提示步骤
+运行上述命令后出现如下提示：
 
 ```shell
 # 您想为哪些名称激活 HTTPS？
@@ -152,7 +158,7 @@ baidu.com.		9	IN	A	110.242.68.66
 ;; MSG SIZE  rcvd: 59
 ```
 
-## 
+## 安装成功
 
 ```shell
 Successfully received certificate.
